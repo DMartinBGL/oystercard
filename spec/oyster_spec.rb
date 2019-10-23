@@ -61,4 +61,12 @@ describe Oystercard do
     subject.touch_in(station)
     expect(subject.entry_station).to eq station
   end
+
+  it 'records the entry and exit stations as a journey in history' do
+    subject.top_up(5)
+    subject.touch_in(station)
+    subject.touch_out(station)
+    expect(subject.journey_history).to have_key(station)
+    expect(subject.journey_history).to have_value(station)
+  end
 end
