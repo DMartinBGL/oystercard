@@ -4,8 +4,6 @@ describe Oystercard do
 
     let(:station){ double :station}
 
-
-
   it "creates an instance of oystercard" do
     expect(subject).to be_an_instance_of Oystercard
     # it {is_expected.to be_an_instance of Oystercard}
@@ -13,7 +11,12 @@ describe Oystercard do
   describe "#initialize" do
     it "initializes an Oystercard with a balance of 0" do
       expect(subject.balance).to eq 0
+    end
+    it 'initializes in_journey as false' do
       expect(subject.in_journey).to eq false
+    end
+    it 'starts with an empty journey history' do
+      expect(subject.journey_history).to be_empty
     end
   end
 
@@ -44,12 +47,12 @@ describe Oystercard do
   describe '#touch_out' do
     it 'adjust the value of in_journey to false' do
       subject.top_up(5)
-      subject.touch_out
+      subject.touch_out(station)
       expect(subject.in_journey).to eq false
     end
     it 'reduced the balance of the oystercard by min charge' do
       oystercard = Oystercard.new(90)
-      expect{oystercard.touch_out}.to change {oystercard.balance}.by -1
+      expect{oystercard.touch_out(station)}.to change {oystercard.balance}.by -1
     end
   end
 
